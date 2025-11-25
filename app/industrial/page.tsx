@@ -3,6 +3,13 @@
 import Navigation from "@/components/navigation";
 import Link from "next/link";
 import { Factory, Zap, Cpu } from "lucide-react";
+import type { ReactElement } from "react";
+
+interface FeatureCardProps {
+  icon: ReactElement;
+  title: string;
+  desc: string;
+}
 
 export default function IndustrialPage() {
   return (
@@ -35,21 +42,18 @@ export default function IndustrialPage() {
       <section className="py-16 px-4 bg-gradient-to-b from-white to-green-50">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-3 gap-10">
-            {/* Card 1 */}
             <FeatureCard
               icon={<Factory className="text-white" size={32} />}
               title="Megawatt Scale"
               desc="Systems ranging from 100kW to 10MW+ capacity for heavy industrial needs."
             />
 
-            {/* Card 2 */}
             <FeatureCard
               icon={<Zap className="text-white" size={32} />}
               title="High Efficiency"
               desc="Industrial-grade modules with 22%+ efficiency and maximum durability."
             />
 
-            {/* Card 3 */}
             <FeatureCard
               icon={<Cpu className="text-white" size={32} />}
               title="Grid Integration"
@@ -63,7 +67,7 @@ export default function IndustrialPage() {
 }
 
 /* Reusable Premium Card */
-function FeatureCard({ icon, title, desc }: any) {
+function FeatureCard({ icon, title, desc }: FeatureCardProps) {
   return (
     <div
       className="
