@@ -1,47 +1,93 @@
-import Navigation from "@/components/navigation"
-import Link from "next/link"
+"use client";
+
+import Navigation from "@/components/navigation";
+import Link from "next/link";
+import { Factory, Zap, Cpu } from "lucide-react";
 
 export default function IndustrialPage() {
   return (
     <main className="bg-white">
       <Navigation />
-      <div className="pt-24 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-5xl font-bold text-[#001a4d] mb-6 text-balance">Industrial Solar Solutions</h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl">
-            Power your industrial operations with large-scale solar installations. Achieve energy independence and
-            reduce your carbon footprint.
+
+      {/* HERO */}
+      <section className="pt-28 pb-16 px-4 bg-gradient-to-br from-[#0d5f3f] to-[#07361f] text-white">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-4 drop-shadow-xl">
+            Industrial Solar Solutions
+          </h1>
+
+          <p className="text-lg md:text-xl text-green-100 max-w-2xl leading-relaxed">
+            Power your industrial operations with large-scale solar
+            infrastructure. Achieve energy independence while reducing long-term
+            operational costs.
           </p>
+
           <Link
             href="/signup"
-            className="inline-block bg-[#00d4ff] text-[#001a4d] px-8 py-3 rounded-lg font-semibold hover:bg-[#001a4d] hover:text-[#00d4ff] transition-colors"
+            className="inline-block mt-8 bg-[#00ff88] text-[#07361f] font-semibold px-8 py-3 rounded-xl shadow-lg hover:bg-white transition-all"
           >
-            Request Industrial Assessment
+            Request Industrial Assessment →
           </Link>
+        </div>
+      </section>
 
-          <div className="mt-16 grid md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Megawatt Scale",
-                description: "Systems ranging from 100kW to 10MW+ capacity",
-              },
-              {
-                title: "High Efficiency",
-                description: "Industrial-grade panels with 22%+ efficiency ratings",
-              },
-              {
-                title: "Grid Integration",
-                description: "Seamless integration with existing power infrastructure",
-              },
-            ].map((item, idx) => (
-              <div key={idx} className="bg-gray-50 p-8 rounded-lg border-2 border-[#00d4ff]">
-                <h3 className="text-xl font-bold text-[#001a4d] mb-3">{item.title}</h3>
-                <p className="text-gray-600">{item.description}</p>
-              </div>
-            ))}
+      {/* FEATURES */}
+      <section className="py-16 px-4 bg-gradient-to-b from-white to-green-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-10">
+            {/* Card 1 */}
+            <FeatureCard
+              icon={<Factory className="text-white" size={32} />}
+              title="Megawatt Scale"
+              desc="Systems ranging from 100kW to 10MW+ capacity for heavy industrial needs."
+            />
+
+            {/* Card 2 */}
+            <FeatureCard
+              icon={<Zap className="text-white" size={32} />}
+              title="High Efficiency"
+              desc="Industrial-grade modules with 22%+ efficiency and maximum durability."
+            />
+
+            {/* Card 3 */}
+            <FeatureCard
+              icon={<Cpu className="text-white" size={32} />}
+              title="Grid Integration"
+              desc="Seamless integration with existing plant infrastructure and power systems."
+            />
           </div>
         </div>
-      </div>
+      </section>
     </main>
-  )
+  );
+}
+
+/* Reusable Premium Card */
+function FeatureCard({ icon, title, desc }: any) {
+  return (
+    <div
+      className="
+        bg-white p-8 rounded-2xl 
+        border border-green-100 
+        shadow-[0_4px_20px_rgba(0,0,0,0.05)]
+        hover:shadow-[0_12px_30px_rgba(0,255,150,0.15)]
+        hover:border-[#00ff88]
+        hover:-translate-y-2
+        transition-all duration-300
+      "
+    >
+      <div
+        className="
+          w-16 h-16 flex items-center justify-center rounded-full mb-6
+          bg-gradient-to-br from-[#00ff88] to-[#0d5f3f]
+          shadow-[0_8px_20px_rgba(0,255,120,0.35)]
+        "
+      >
+        {icon}
+      </div>
+
+      <h3 className="text-xl font-bold text-[#0d5f3f] mb-3">{title}</h3>
+      <p className="text-gray-600 leading-relaxed text-[15px]">{desc}</p>
+    </div>
+  );
 }

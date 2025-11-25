@@ -1,109 +1,163 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import { useState } from "react"
+import Image from "next/image";
+import { useState } from "react";
 
 const galleryImages = [
   {
     src: "/gallery-Bifacial-Solar-Modules-Explained-_1_.jpeg",
     alt: "Bifacial Solar Modules Explained",
-    title: "Advanced Bifacial Technology"
+    title: "Advanced Bifacial Technology",
   },
   {
     src: "/gallery-Bifacial-Solar-Modules-Explained.jpeg",
     alt: "Bifacial Solar Modules",
-    title: "High-Efficiency Solar Solutions"
+    title: "High-Efficiency Solar Solutions",
   },
   {
     src: "/gallery-Eco-friendly-Quotes-for-Bifacial-Solar-Modules.jpeg",
     alt: "Eco-friendly Solar",
-    title: "Sustainable Energy Future"
+    title: "Sustainable Energy Future",
   },
   {
     src: "/gallery-Legga-Village-Solar-Electrification.jpeg",
     alt: "Village Solar Electrification",
-    title: "Rural Electrification Project"
+    title: "Rural Electrification Project",
   },
   {
     src: "/gallery-This-is-what-energy-independence-looks-like_-Rows….jpeg",
     alt: "Energy Independence",
-    title: "Energy Independence Solutions"
+    title: "Energy Independence Solutions",
   },
   {
     src: "/gallery-Power-Quality-Analysis-Bifacial-Solar-Modules.jpeg",
     alt: "Power Quality Analysis",
-    title: "Advanced Power Analysis"
+    title: "Advanced Power Analysis",
   },
   {
     src: "/gallery-Nimbus-Solar-Solution.jpeg",
     alt: "Nimbus Solar Solution",
-    title: "Nimbus Solar Technology"
+    title: "Nimbus Solar Technology",
   },
   {
     src: "/gallery-India-Cleaner-Future.jpeg",
     alt: "India Cleaner Future",
-    title: "Clean Energy for India"
-  }
-]
+    title: "Clean Energy for India",
+  },
+];
 
 export default function Gallery() {
-  const [selectedImage, setSelectedImage] = useState<number | null>(null)
+  const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
   return (
-    <section className="py-16 bg-gradient-to-b from-[#f0f9f7] to-white">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-[#0d5f3f] mb-4">Our Solar Projects Gallery</h2>
-          <p className="text-lg text-gray-600">Showcasing our commitment to sustainable energy solutions</p>
+    <section className="py-20 bg-gradient-to-b from-white to-green-50 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        {/* TITLE */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-[#0d5f3f]">
+            Solar Projects Gallery
+          </h2>
+          <p className="text-lg text-gray-600 mt-3 max-w-3xl mx-auto">
+            Explore real installations and renewable energy projects by MAVEN
+            Green Energy
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* GALLERY GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {galleryImages.map((image, index) => (
             <div
               key={index}
-              className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer"
               onClick={() => setSelectedImage(index)}
+              className="group relative overflow-hidden rounded-xl cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500"
             >
-              <div className="aspect-square relative">
+              {/* Image */}
+              <div className="relative h-64 w-full">
                 <Image
                   src={image.src}
                   alt={image.alt}
                   fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  className="object-cover transition-transform duration-700 group-hover:scale-110 group-hover:brightness-[0.35]"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute bottom-4 left-4 right-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                  <h3 className="font-semibold text-sm">{image.title}</h3>
+              </div>
+
+              {/* FULL TEXT OVERLAY (FIXED CLASSNAME) */}
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-700">
+                <div className="text-center px-6 text-white text-xl font-semibold tracking-wide animate-fadeOverlay">
+                  {image.title}
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Modal */}
+        {/* MODAL */}
         {selectedImage !== null && (
           <div
-            className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn"
             onClick={() => setSelectedImage(null)}
           >
-            <div className="relative max-w-4xl max-h-[90vh] w-full">
+            <div className="relative max-w-4xl w-full animate-zoomIn">
               <Image
                 src={galleryImages[selectedImage].src}
                 alt={galleryImages[selectedImage].alt}
-                width={800}
-                height={600}
-                className="w-full h-auto rounded-lg"
+                width={1200}
+                height={800}
+                className="rounded-xl shadow-xl"
               />
               <button
                 onClick={() => setSelectedImage(null)}
-                className="absolute top-4 right-4 text-white bg-black/50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-black/70 transition-colors"
+                className="absolute top-4 right-4 text-white bg-black/60 rounded-full w-10 h-10 flex items-center justify-center hover:bg-black/80 transition"
               >
                 ✕
               </button>
             </div>
           </div>
         )}
+
+        {/* Animations */}
+        <style jsx>{`
+          @keyframes fadeIn {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
+          }
+          .animate-fadeIn {
+            animation: fadeIn 0.35s ease-out;
+          }
+
+          @keyframes zoomIn {
+            from {
+              transform: scale(0.85);
+              opacity: 0;
+            }
+            to {
+              transform: scale(1);
+              opacity: 1;
+            }
+          }
+          .animate-zoomIn {
+            animation: zoomIn 0.35s ease-out;
+          }
+
+          @keyframes fadeOverlay {
+            from {
+              opacity: 0;
+              transform: translateY(10px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+          .animate-fadeOverlay {
+            animation: fadeOverlay 0.4s ease-out;
+          }
+        `}</style>
       </div>
     </section>
-  )
+  );
 }

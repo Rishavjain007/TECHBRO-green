@@ -1,256 +1,325 @@
-"use client"
+"use client";
 
-import { ChevronDown, Menu, X } from "lucide-react"
-import { useState } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import Image from "next/image"
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { ChevronDown, Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+
+interface MenuItem {
+  label: string;
+  href: string;
+}
+
+interface MenuGroup {
+  title: string;
+  items: MenuItem[];
+}
 
 export default function Navigation() {
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const pathname = usePathname()
+  const [active, setActive] = useState<string | null>(null);
+  const [mobile, setMobile] = useState(false);
 
-  const toggleDropdown = (menu: string) => {
-    setOpenDropdown(openDropdown === menu ? null : menu)
-  }
+  // Auto-Hide Navbar
+  const [hidden, setHidden] = useState(false);
+  let lastScrollY = 0;
 
-  const isActive = (path: string) => pathname === path
+  // Scroll Progress Bar
+  const [scrollWidth, setScrollWidth] = useState(0);
 
-  const navItems = {
-    "Our Offerings": [
-      { label: "Residential Solar", href: "/residential" },
-      { label: "Commercial Solar", href: "/commercial" },
-      { label: "Industrial Solar", href: "/industrial" },
-    ],
-    "Solar Solutions": [
-      { label: "Solar Solutions", href: "/solar-solutions" },
-      { label: "Battery Storage", href: "/battery-storage" },
-      { label: "Monitoring Systems", href: "/monitoring" },
-    ],
-    "Our Presence": [
-      { label: "Our Presence", href: "/our-presence" },
-      { label: "Service Areas", href: "/our-presence" },
-      { label: "Contact Us", href: "/contact" },
-    ],
-    Blog: [
-      { label: "Blog", href: "/blog" },
-      { label: "Solar Tips", href: "/blog" },
-      { label: "News", href: "/blog" },
-    ],
-  }
+  const pathname = usePathname();
 
-  const moreItems = [
+  // Auto-hide navbar on scroll direction
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > lastScrollY && window.scrollY > 80) {
+        setHidden(true);
+      } else {
+        setHidden(false);
+      }
+      lastScrollY = window.scrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Scroll progress bar
+  useEffect(() => {
+    const updateProgress = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.body.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / docHeight) * 100;
+      setScrollWidth(progress);
+    };
+
+    window.addEventListener("scroll", updateProgress);
+    return () => window.removeEventListener("scroll", updateProgress);
+  }, []);
+
+  const menus: MenuGroup[] = [
+    {
+      title: "Our Offerings",
+      items: [
+        { label: "Residential Solar", href: "/residential" },
+        { label: "Commercial Solar", href: "/commercial" },
+        { label: "Industrial Solar", href: "/industrial" },
+      ],
+    },
+    {
+      title: "Solar Solutions",
+      items: [
+        { label: "Solar Solutions", href: "/solar-solutions" },
+        { label: "Battery Storage", href: "/battery-storage" },
+        { label: "Monitoring Systems", href: "/monitoring" },
+      ],
+    },
+    {
+      title: "Our Presence",
+      items: [
+        { label: "Our Presence", href: "/our-presence" },
+        { label: "Service Areas", href: "/our-presence" },
+        { label: "Contact Us", href: "/contact" },
+      ],
+    },
+    {
+      title: "Blog",
+      items: [
+        { label: "Blog", href: "/blog" },
+        { label: "Solar Tips", href: "/blog" },
+        { label: "News", href: "/blog" },
+      ],
+    },
+  ];
+
+  const moreItems: MenuItem[] = [
     { label: "About Us", href: "/about" },
-    { label: "Careers", href: "/about" },
-    { label: "FAQ", href: "/contact" },
-  ]
+    { label: "Careers", href: "/careers" },
+    { label: "FAQ", href: "/faq" },
+  ];
 
   return (
-    <nav className="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl bg-white/70 backdrop-blur-md border border-gray-200/50 z-50 shadow-xl rounded-2xl">
-      <div className="px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-24 md:h-32">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="flex items-center hover:scale-105 transition-transform duration-300"
-          >
-            <Image
-              src="/logo.png"
-              alt="MAVEN Logo"
-              width={400}
-              height={125}
-              className="h-20 md:h-28 w-auto"
-            />
-          </Link>
+    <>
+      <nav
+        className={`fixed top-0 left-1/2 -translate-x-1/2 w-[96%] max-w-7xl
+        bg-white/50 backdrop-blur-2xl border border-white/30 shadow-xl rounded-b-2xl z-50
+        transition-all duration-300
+        ${
+          hidden
+            ? "-translate-y-full opacity-0"
+            : "translate-y-0 opacity-100"
+        }
+      `}
+      >
+        {/* Scroll Progress Bar */}
+        <div
+          className="absolute top-0 left-0 h-[3px] bg-green-600 transition-all duration-150"
+          style={{ width: `${scrollWidth}%` }}
+        ></div>
 
-          {/* Hamburger Menu Button - Mobile Only */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-green-50 transition-colors z-50"
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? (
-              <X size={28} className="text-gray-700" />
-            ) : (
-              <Menu size={28} className="text-gray-700" />
-            )}
-          </button>
-
-          {/* Menu Links */}
-          <div className="hidden md:flex items-center gap-8">
-            {Object.entries(navItems).map(([title, items]) => (
-              <div key={title} className="relative">
-                <button
-                  onClick={() => toggleDropdown(title)}
-                  className={`flex items-center gap-1 font-medium transition-all duration-300 ease-out px-3 py-2 rounded-lg ${
-                    isActive(items[0].href)
-                      ? "text-[#0d5f3f] bg-green-50 shadow-md"
-                      : "text-gray-700 hover:text-[#0d5f3f] hover:bg-green-50 hover:shadow-md hover:scale-105"
-                  }`}
-                >
-                  {title}
-                  <ChevronDown
-                    size={16}
-                    className={`transition-transform duration-300 ${openDropdown === title ? "rotate-180" : ""}`}
-                  />
-                </button>
-
-                {/* Dropdown Menu */}
-                {openDropdown === title && (
-                  <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                    {items.map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        className={`block px-4 py-2 font-normal transition-all duration-200 ${
-                          isActive(item.href)
-                            ? "bg-[#0099cc] text-white"
-                            : "text-[#2d7a4a] hover:bg-green-100 hover:text-[#0099cc]"
-                        }`}
-                        onClick={() => setOpenDropdown(null)}
-                      >
-                        {item.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-
-            {/* More Dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => toggleDropdown("More")}
-                className="flex items-center gap-1 font-medium text-gray-700 hover:text-[#0d5f3f] hover:bg-green-50 hover:shadow-md hover:scale-105 transition-all duration-300 ease-out px-3 py-2 rounded-lg"
-              >
-                More
-                <ChevronDown
-                  size={16}
-                  className={`transition-transform duration-300 ${openDropdown === "More" ? "rotate-180" : ""}`}
-                />
-              </button>
-
-              {openDropdown === "More" && (
-                <div className="absolute top-full right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                  {moreItems.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className={`block px-4 py-2 font-normal transition-all duration-200 ${
-                        isActive(item.href)
-                          ? "bg-[#0099cc] text-white"
-                          : "text-[#2d7a4a] hover:bg-green-100 hover:text-[#0099cc]"
-                      }`}
-                      onClick={() => setOpenDropdown(null)}
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* CTA Button */}
-          {/* <Link
-            href="/signup"
-            className="bg-[#0d5f3f] text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#00ff88] hover:text-[#0d5f3f] hover:shadow-xl hover:scale-105 transition-all duration-300 ease-out flex items-center gap-2 text-sm"
-          >
-            Sign up for free electricity
-            <span>→</span>
-          </Link> */}
-        </div>
-
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden absolute left-0 right-0 top-full mt-2 bg-white/95 backdrop-blur-md border border-gray-200/50 rounded-2xl shadow-xl py-4 px-4 max-h-[calc(100vh-6rem)] overflow-y-auto animate-in slide-in-from-top-4 duration-300">
-            {/* Mobile Nav Items */}
-            {Object.entries(navItems).map(([title, items]) => (
-              <div key={title} className="mb-3">
-                <button
-                  onClick={() => toggleDropdown(title)}
-                  className="w-full flex items-center justify-between px-4 py-3 text-gray-700 hover:bg-green-50 rounded-lg transition-colors font-medium"
-                >
-                  <span>{title}</span>
-                  <ChevronDown
-                    size={18}
-                    className={`transition-transform duration-300 ${openDropdown === title ? "rotate-180" : ""}`}
-                  />
-                </button>
-                
-                {openDropdown === title && (
-                  <div className="pl-2 mt-1 space-y-1 animate-in slide-in-from-top-2 duration-200">
-                    {items.map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        className={`block px-4 py-2.5 rounded-lg transition-all duration-200 ${
-                          isActive(item.href)
-                            ? "bg-[#0099cc] text-white font-medium"
-                            : "text-[#2d7a4a] hover:bg-green-100 hover:text-[#0d5f3f]"
-                        }`}
-                        onClick={() => {
-                          setOpenDropdown(null)
-                          setMobileMenuOpen(false)
-                        }}
-                      >
-                        {item.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-
-            {/* Mobile More Section */}
-            <div className="mb-3">
-              <button
-                onClick={() => toggleDropdown("More")}
-                className="w-full flex items-center justify-between px-4 py-3 text-gray-700 hover:bg-green-50 rounded-lg transition-colors font-medium"
-              >
-                <span>More</span>
-                <ChevronDown
-                  size={18}
-                  className={`transition-transform duration-300 ${openDropdown === "More" ? "rotate-180" : ""}`}
-                />
-              </button>
-              
-              {openDropdown === "More" && (
-                <div className="pl-2 mt-1 space-y-1 animate-in slide-in-from-top-2 duration-200">
-                  {moreItems.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className={`block px-4 py-2.5 rounded-lg transition-all duration-200 ${
-                        isActive(item.href)
-                          ? "bg-[#0099cc] text-white font-medium"
-                          : "text-[#2d7a4a] hover:bg-green-100 hover:text-[#0d5f3f]"
-                      }`}
-                      onClick={() => {
-                        setOpenDropdown(null)
-                        setMobileMenuOpen(false)
-                      }}
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Mobile CTA Button */}
-            <Link
-              href="/signup"
-              className="flex items-center justify-center gap-2 w-full bg-[#0d5f3f] text-white px-6 py-3.5 rounded-lg font-semibold hover:bg-[#00ff88] hover:text-[#0d5f3f] transition-all duration-300 mt-4 shadow-lg"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Sign up for free electricity
-              <span>→</span>
+        <div className="px-6">
+          <div className="flex justify-between items-center h-20">
+            {/* Logo */}
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/logo.png"
+                alt="Logo"
+                width={400}
+                height={120}
+                className="h-16 w-auto transition-transform hover:scale-105"
+              />
             </Link>
+
+            {/* Mobile menu button */}
+            <button
+              className="md:hidden p-2 rounded-xl bg-white/40 backdrop-blur-xl border border-white/40 shadow-md hover:bg-white/60 transition"
+              onClick={() => setMobile(!mobile)}
+            >
+              {mobile ? <X size={28} /> : <Menu size={28} />}
+            </button>
+
+            {/* Desktop Menu */}
+            <div className="hidden md:flex items-center gap-8">
+              {menus.map((m) => (
+                <Dropdown
+                  key={m.title}
+                  data={m}
+                  active={active}
+                  setActive={setActive}
+                />
+              ))}
+              <Dropdown
+                data={{ title: "More", items: moreItems }}
+                active={active}
+                setActive={setActive}
+              />
+
+              {/* CTA Button */}
+              <Link
+                href="/quote"
+                className="px-5 py-2 rounded-xl bg-gradient-to-r from-green-600 to-emerald-500 text-white font-semibold shadow-lg hover:shadow-emerald-500/40 hover:scale-105 transition"
+              >
+                Get Quote →
+              </Link>
+            </div>
           </div>
-        )}
-      </div>
-    </nav>
-  )
+
+          {/* Mobile Menu */}
+          {mobile && (
+            <div className="md:hidden mt-3 bg-white/90 backdrop-blur-xl border border-gray-200 shadow-xl rounded-xl p-5 space-y-4 animate-slideDown">
+              {menus.map((m) => (
+                <MobileDropdown
+                  key={m.title}
+                  data={m}
+                  active={active}
+                  setActive={setActive}
+                  setMobile={setMobile}
+                />
+              ))}
+
+              <MobileDropdown
+                data={{ title: "More", items: moreItems }}
+                active={active}
+                setActive={setActive}
+                setMobile={setMobile}
+              />
+
+              <Link
+                href="/quote"
+                className="block text-center bg-gradient-to-r from-green-600 to-emerald-500 text-white py-3 rounded-xl shadow-lg hover:scale-105 transition"
+              >
+                Get Quote →
+              </Link>
+            </div>
+          )}
+        </div>
+      </nav>
+
+      {/* INTERNAL KEYFRAMES */}
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-6px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.25s ease-out;
+        }
+
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateY(-12px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-slideDown {
+          animation: slideDown 0.32s ease-out;
+        }
+      `}</style>
+    </>
+  );
+}
+
+/* ------------------------------
+   DESKTOP DROPDOWN
+--------------------------------*/
+function Dropdown({
+  data,
+  active,
+  setActive,
+}: {
+  data: MenuGroup;
+  active: string | null;
+  setActive: (value: string | null) => void;
+}) {
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setActive(active === data.title ? null : data.title)}
+        className="flex items-center gap-1 px-4 py-2 font-medium text-gray-700 hover:text-green-700 hover:bg-green-50 rounded-xl transition-all relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-[2px] after:bg-green-600 after:transition-all after:duration-300 hover:after:w-full"
+      >
+        {data.title}
+        <ChevronDown
+          size={18}
+          className={`transition-transform ${
+            active === data.title ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+
+      {active === data.title && (
+        <div className="absolute top-full left-0 mt-3 w-56 bg-white shadow-xl border border-gray-200 rounded-xl py-3 animate-fadeIn z-50">
+          {data.items.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setActive(null)}
+              className="block px-4 py-2.5 text-gray-700 rounded-lg transition-all hover:bg-green-100 hover:text-green-700 hover:scale-[1.02]"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ------------------------------
+   MOBILE DROPDOWN
+--------------------------------*/
+function MobileDropdown({
+  data,
+  active,
+  setActive,
+  setMobile,
+}: {
+  data: MenuGroup;
+  active: string | null;
+  setActive: (value: string | null) => void;
+  setMobile: (value: boolean) => void;
+}) {
+  return (
+    <div>
+      <button
+        onClick={() => setActive(active === data.title ? null : data.title)}
+        className="w-full bg-gray-100 px-4 py-3 rounded-xl flex justify-between items-center font-medium text-gray-700 transition-all active:scale-95"
+      >
+        {data.title}
+        <ChevronDown
+          size={20}
+          className={`transition-transform ${
+            active === data.title ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+
+      {active === data.title && (
+        <div className="mt-2 space-y-2 pl-2 animate-fadeIn">
+          {data.items.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => {
+                setActive(null);
+                setMobile(false);
+              }}
+              className="block bg-white px-4 py-3 rounded-lg text-gray-700 transition hover:bg-green-100 hover:text-green-700"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }

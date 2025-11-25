@@ -1,155 +1,183 @@
-"use client"
+"use client";
 
-import Navigation from "@/components/navigation"
-import Link from "next/link"
+import Navigation from "@/components/navigation";
+import Link from "next/link";
+import {
+  Sun,
+  Battery,
+  BarChart3,
+  Smartphone,
+  CheckCircle2,
+  Sparkles,
+} from "lucide-react";
 
 export default function SolarSolutions() {
-
   return (
     <main className="bg-white">
       <Navigation />
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 bg-gradient-to-br from-[#2d7a4a] to-[#1a4a2a] text-white">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 scroll-fade-in">Advanced Solar Solutions</h1>
-          <p className="text-xl md:text-2xl text-green-100 mb-8 max-w-2xl scroll-fade-in">
-            Comprehensive renewable energy systems designed for maximum efficiency and sustainability
+      {/* HERO */}
+      <section className="pt-28 pb-20 px-4 bg-gradient-to-br from-[#0d5f3f] to-[#07361f] text-white">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-5xl md:text-6xl font-extrabold mb-6 drop-shadow-xl scroll-fade-in">
+            Advanced Solar Solutions
+          </h1>
+          <p className="text-xl md:text-2xl text-green-100 max-w-3xl scroll-fade-in leading-relaxed">
+            Comprehensive renewable energy systems engineered for maximum
+            efficiency, durability, and long-term sustainability.
           </p>
         </div>
       </section>
 
-      {/* Solar Panels Section */}
-      <section className="py-20 px-4 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="scroll-fade-in-left">
-              <h2 className="text-4xl font-bold text-[#2d7a4a] mb-6">High-Efficiency Solar Panels</h2>
-              <p className="text-gray-700 text-lg mb-4">
-                Our premium solar panels feature cutting-edge photovoltaic technology with efficiency ratings up to 22%.
-                Each panel is engineered to maximize energy capture even in low-light conditions.
-              </p>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-start gap-3">
-                  <span className="text-[#0099cc] font-bold">✓</span>
-                  <span className="text-gray-700">25-year performance warranty</span>
+      {/* SOLAR PANELS */}
+      <section className="py-20 px-4 bg-gradient-to-b from-white to-green-50">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-14 items-center">
+          <div className="scroll-fade-in-left">
+            <h2 className="text-4xl font-bold text-[#0d5f3f] mb-6">
+              High-Efficiency Solar Panels
+            </h2>
+
+            <p className="text-gray-700 text-lg leading-relaxed mb-6">
+              Our industry-leading solar panels deliver outstanding output with
+              efficiency ratings up to 22%. Built with top-tier monocrystalline
+              technology for superior performance under all weather conditions.
+            </p>
+
+            <ul className="space-y-3 mb-8">
+              {[
+                "25-year performance warranty",
+                "Cyclone-proof build quality",
+                "Low degradation rate",
+                "Eco-friendly manufacturing",
+              ].map((item, index) => (
+                <li key={index} className="flex items-start gap-3">
+                  <CheckCircle2 size={20} className="text-[#0d5f3f]" />
+                  <span className="text-gray-700">{item}</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-[#0099cc] font-bold">✓</span>
-                  <span className="text-gray-700">Weather-resistant design</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-[#0099cc] font-bold">✓</span>
-                  <span className="text-gray-700">Minimal degradation over time</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-[#0099cc] font-bold">✓</span>
-                  <span className="text-gray-700">Eco-friendly materials</span>
-                </li>
-              </ul>
-              <button className="bg-[#2d7a4a] text-white px-8 py-3 rounded-lg hover:bg-[#0099cc] transition-colors font-semibold">
-                Learn More
-              </button>
-            </div>
-            <div className="scroll-fade-in-right">
-              <div className="bg-gradient-to-br from-[#e8f5f0] to-[#d0ebe0] rounded-lg p-8 h-96 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-6xl mb-4">☀️</div>
-                  <p className="text-[#2d7a4a] font-semibold">Premium Solar Panels</p>
+              ))}
+            </ul>
+
+            <button className="bg-[#0d5f3f] text-white px-8 py-3 rounded-xl font-semibold hover:bg-[#0099cc] transition-all">
+              Learn More →
+            </button>
+          </div>
+
+          {/* Icon Card */}
+          <div className="scroll-fade-in-right flex justify-center">
+            <div className="bg-gradient-to-br from-[#e8f5f0] to-[#d0ebe0] rounded-2xl h-80 w-full flex items-center justify-center shadow-xl">
+              <div className="text-center">
+                <div className="w-20 h-20 rounded-full bg-[#0d5f3f] flex items-center justify-center mx-auto shadow-lg mb-4">
+                  <Sun className="text-white" size={36} />
                 </div>
+                <p className="text-xl font-semibold text-[#0d5f3f]">
+                  Premium Solar Panels
+                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Battery Storage Section */}
+      {/* BATTERY STORAGE */}
       <section className="py-20 px-4 bg-[#f0f9f6]">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="scroll-fade-in">
-              <div className="bg-gradient-to-br from-[#2d7a4a] to-[#0099cc] rounded-lg p-8 h-96 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-6xl mb-4">🔋</div>
-                  <p className="text-white font-semibold">Advanced Battery Storage</p>
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-14 items-center">
+          {/* Icon Card */}
+          <div className="scroll-fade-in">
+            <div className="bg-gradient-to-br from-[#0d5f3f] to-[#072e1f] rounded-2xl h-80 w-full flex items-center justify-center shadow-xl">
+              <div className="text-center">
+                <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto shadow-inner mb-4">
+                  <Battery className="text-white" size={40} />
                 </div>
+                <p className="text-xl font-semibold text-white">
+                  Advanced Battery Storage
+                </p>
               </div>
             </div>
-            <div className="scroll-fade-in">
-              <h2 className="text-4xl font-bold text-[#2d7a4a] mb-6">Battery Storage Systems</h2>
-              <p className="text-gray-700 text-lg mb-4">
-                Store excess solar energy with our state-of-the-art lithium-ion battery systems. Enjoy energy
-                independence and backup power during outages.
-              </p>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-start gap-3">
-                  <span className="text-[#0099cc] font-bold">✓</span>
-                  <span className="text-gray-700">10-15 kWh storage capacity</span>
+          </div>
+
+          <div className="scroll-fade-in">
+            <h2 className="text-4xl font-bold text-[#0d5f3f] mb-6">
+              Battery Storage Systems
+            </h2>
+
+            <p className="text-gray-700 text-lg leading-relaxed mb-6">
+              Store excess solar energy and use it anytime — even at night or
+              during power outages. Our lithium-ion systems ensure
+              round-the-clock power supply.
+            </p>
+
+            <ul className="space-y-3 mb-8">
+              {[
+                "10–15 kWh storage capacity",
+                "Smart load management",
+                "Backup power support",
+                "10-year product warranty",
+              ].map((item, idx) => (
+                <li key={idx} className="flex items-start gap-3">
+                  <CheckCircle2 size={20} className="text-[#0d5f3f]" />
+                  <span className="text-gray-700">{item}</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-[#0099cc] font-bold">✓</span>
-                  <span className="text-gray-700">Smart energy management</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-[#0099cc] font-bold">✓</span>
-                  <span className="text-gray-700">Backup power capability</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-[#0099cc] font-bold">✓</span>
-                  <span className="text-gray-700">10-year warranty</span>
-                </li>
-              </ul>
-              <button className="bg-[#0099cc] text-white px-8 py-3 rounded-lg hover:bg-[#2d7a4a] transition-colors font-semibold">
-                Explore Storage
-              </button>
-            </div>
+              ))}
+            </ul>
+
+            <button className="bg-[#0d5f3f] text-white px-8 py-3 rounded-xl font-semibold hover:bg-[#0d5f3f] transition-all">
+              Explore Storage →
+            </button>
           </div>
         </div>
       </section>
 
-      {/* Monitoring Systems Section */}
+      {/* MONITORING */}
       <section className="py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-[#2d7a4a] mb-12 text-center scroll-fade-in">Real-Time Monitoring</h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <h2 className="text-4xl font-bold text-[#0d5f3f] mb-14 text-center scroll-fade-in">
+            Real-Time Monitoring
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-10">
             {[
               {
+                icon: <BarChart3 size={40} className="text-[#0d5f3f]" />,
                 title: "Live Performance Tracking",
-                description: "Monitor your system's performance in real-time with our advanced dashboard",
-                icon: "📊",
+                desc: "Monitor system performance with real-time metrics.",
               },
               {
+                icon: <Sparkles size={40} className="text-[#0d5f3f]" />,
                 title: "Energy Analytics",
-                description: "Detailed insights into your energy production and consumption patterns",
-                icon: "📈",
+                desc: "Track daily, monthly, and annual energy production trends.",
               },
               {
-                title: "Mobile App Control",
-                description: "Manage your solar system from anywhere with our intuitive mobile application",
-                icon: "📱",
+                icon: <Smartphone size={40} className="text-[#0d5f3f]" />,
+                title: "Mobile Control App",
+                desc: "Control and monitor your solar system from anywhere.",
               },
             ].map((item, index) => (
               <div
                 key={index}
-                className="scroll-fade-in bg-[#f0f9f6] p-8 rounded-lg border border-[#d0ebe0] hover:shadow-lg transition-shadow"
+                className="scroll-fade-in bg-[#f0f9f6] p-10 rounded-2xl border border-[#d0ebe0] hover:shadow-xl hover:-translate-y-2 transition-all"
               >
-                <div className="text-5xl mb-4">{item.icon}</div>
-                <h3 className="text-xl font-bold text-[#2d7a4a] mb-3">{item.title}</h3>
-                <p className="text-gray-700">{item.description}</p>
+                <div className="mb-4">{item.icon}</div>
+                <h3 className="text-xl font-bold text-[#0d5f3f] mb-2">
+                  {item.title}
+                </h3>
+                <p className="text-gray-700">{item.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Comparison Table */}
+      {/* COMPARISON TABLE */}
       <section className="py-20 px-4 bg-[#f0f9f6]">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-[#2d7a4a] mb-12 text-center scroll-fade-in">Solution Comparison</h2>
-          <div className="overflow-x-auto scroll-fade-in">
-            <table className="w-full border-collapse">
+        <div className="max-w-6xl mx-auto scroll-fade-in">
+          <h2 className="text-4xl font-bold text-[#0d5f3f] mb-12 text-center">
+            Solution Comparison
+          </h2>
+
+          <div className="overflow-x-auto">
+            <table className="w-full border border-[#d0ebe0] rounded-xl overflow-hidden">
               <thead>
-                <tr className="bg-[#2d7a4a] text-white">
+                <tr className="bg-[#0d5f3f] text-white">
                   <th className="p-4 text-left">Feature</th>
                   <th className="p-4 text-center">Basic</th>
                   <th className="p-4 text-center">Premium</th>
@@ -158,17 +186,53 @@ export default function SolarSolutions() {
               </thead>
               <tbody>
                 {[
-                  { feature: "Solar Panels", basic: "4-6 kW", premium: "8-10 kW", enterprise: "15+ kW" },
-                  { feature: "Battery Storage", basic: "5 kWh", premium: "10 kWh", enterprise: "20+ kWh" },
-                  { feature: "Monitoring", basic: "Basic", premium: "Advanced", enterprise: "Premium" },
-                  { feature: "Warranty", basic: "10 years", premium: "15 years", enterprise: "20 years" },
-                  { feature: "Support", basic: "Email", premium: "24/7 Phone", enterprise: "Dedicated" },
-                ].map((row, index) => (
-                  <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-[#e8f5f0]"}>
-                    <td className="p-4 font-semibold text-[#2d7a4a]">{row.feature}</td>
-                    <td className="p-4 text-center text-gray-700">{row.basic}</td>
-                    <td className="p-4 text-center text-gray-700">{row.premium}</td>
-                    <td className="p-4 text-center text-gray-700">{row.enterprise}</td>
+                  {
+                    feature: "Solar Panels",
+                    basic: "4–6 kW",
+                    premium: "8–10 kW",
+                    enterprise: "15+ kW",
+                  },
+                  {
+                    feature: "Battery Storage",
+                    basic: "5 kWh",
+                    premium: "10 kWh",
+                    enterprise: "20+ kWh",
+                  },
+                  {
+                    feature: "Monitoring",
+                    basic: "Basic",
+                    premium: "Advanced",
+                    enterprise: "Premium",
+                  },
+                  {
+                    feature: "Warranty",
+                    basic: "10 yrs",
+                    premium: "15 yrs",
+                    enterprise: "20 yrs",
+                  },
+                  {
+                    feature: "Support",
+                    basic: "Email",
+                    premium: "24/7 Support",
+                    enterprise: "Dedicated Team",
+                  },
+                ].map((row, i) => (
+                  <tr
+                    key={i}
+                    className={i % 2 === 0 ? "bg-white" : "bg-[#e8f5f0]"}
+                  >
+                    <td className="p-4 font-semibold text-[#0d5f3f]">
+                      {row.feature}
+                    </td>
+                    <td className="p-4 text-center text-gray-700">
+                      {row.basic}
+                    </td>
+                    <td className="p-4 text-center text-gray-700">
+                      {row.premium}
+                    </td>
+                    <td className="p-4 text-center text-gray-700">
+                      {row.enterprise}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -177,21 +241,22 @@ export default function SolarSolutions() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-[#2d7a4a] to-[#0099cc] text-white">
-        <div className="max-w-4xl mx-auto text-center scroll-fade-in">
+      {/* CTA */}
+      <section className="py-20 px-4 bg-gradient-to-r from-[#0d5f3f] to-[#072e1f] text-white">
+        <div className="max-w-5xl mx-auto text-center scroll-fade-in">
           <h2 className="text-4xl font-bold mb-6">Ready to Go Solar?</h2>
           <p className="text-xl mb-8 text-green-100">
-            Get a free consultation and custom quote for your solar solution
+            Get a free consultation and customized quote for your home or
+            business.
           </p>
           <Link
             href="/signup"
-            className="bg-white text-[#2d7a4a] px-8 py-3 rounded-lg hover:bg-green-100 transition-colors font-semibold inline-block"
+            className="bg-white text-[#0d5f3f] px-10 py-4 rounded-xl font-semibold hover:bg-green-100 transition-all"
           >
-            Get Your Free Quote
+            Get Your Free Quote →
           </Link>
         </div>
       </section>
     </main>
-  )
+  );
 }
